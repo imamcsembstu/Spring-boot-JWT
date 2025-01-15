@@ -26,12 +26,9 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
     private final PasswordEncoder passwordEncoder;
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
-    public SecurityConfig(@Lazy JwtAuthFilter jwtAuthFilter, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
@@ -49,8 +46,8 @@ public class SecurityConfig {
                 // giving every permission to every request for public endpoint
                 .authorizeHttpRequests(auth -> auth
 //            our public endpoints
-                        .requestMatchers(HttpMethod.POST, "/api/auth/register/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/register/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login/**").permitAll()
 //            our private endpoints
                         .anyRequest().authenticated())
                 // setting auth provider of dao authentication of user details service

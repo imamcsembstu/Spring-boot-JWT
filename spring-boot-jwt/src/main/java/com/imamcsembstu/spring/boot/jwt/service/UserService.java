@@ -2,6 +2,7 @@ package com.imamcsembstu.spring.boot.jwt.service;
 
 import com.imamcsembstu.spring.boot.jwt.config.authentication.CustomUserDetails;
 import com.imamcsembstu.spring.boot.jwt.dto.request.RegisterUserRequestDto;
+import com.imamcsembstu.spring.boot.jwt.dto.response.RegisterUserResponseDto;
 import com.imamcsembstu.spring.boot.jwt.model.User;
 import com.imamcsembstu.spring.boot.jwt.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -48,22 +50,30 @@ public class UserService {
         user.setFullName(request.getFullName());
         return user;
     }
-    public User findByUserName(String email) {
-        Optional<User> user = repository.findByEmail(email);
-        if (user.isPresent()) {
-            return user.get();
+
+
+    public RegisterUserResponseDto getSingleById(Long id) {
+        User user  = findById(id);
+        if (Objects.nonNull(user)){
+            return convertToResponseDto(user);
+        }else {
+            throw new RuntimeException("User Not Found");
         }
-        else throw new RuntimeException("Not found");
     }
 
+    private RegisterUserResponseDto convertToResponseDto(User user) {
+        return RegisterUserResponseDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .fullName(user.getFullName())
+                .build();
+    }
 
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> user = repository.findByEmail(email);
-
-        if (user.isPresent()) {
-            return CustomUserDetails.build(user.get());
+    public User findById(Long id) {
+        if (id != null) {
+            return repository.findById(id).orElse(null);
         } else {
-            throw new UsernameNotFoundException("User Not Found" + email);
+            return null;
         }
     }
 }

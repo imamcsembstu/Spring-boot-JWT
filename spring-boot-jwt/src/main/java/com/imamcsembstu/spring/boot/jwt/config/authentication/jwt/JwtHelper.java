@@ -19,8 +19,8 @@ import java.util.Date;
 @Component
 public class JwtHelper {
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    @Value("${jwt.validation-time}")
-    private static Long jwtValidationTime;
+
+    private static final Long jwtValidationTime = 3600L;
 
     public static String generateToken(String email) {
         var now = Instant.now();

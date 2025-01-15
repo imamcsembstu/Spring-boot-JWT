@@ -1,5 +1,6 @@
 package com.imamcsembstu.spring.boot.jwt.config.authentication.jwt;
 
+import com.imamcsembstu.spring.boot.jwt.config.authentication.service.CustomUserDetailsService;
 import com.imamcsembstu.spring.boot.jwt.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,15 +22,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 
     private final JwtHelper jwtHelper;
-    private UserService userService;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    public JwtAuthFilter(JwtHelper jwtHelper) {
+    public JwtAuthFilter(JwtHelper jwtHelper, CustomUserDetailsService customUserDetailsService) {
         this.jwtHelper = jwtHelper;
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) { // Setter injection
-        this.userService = userService;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Override
@@ -47,7 +44,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService.loadUserByUsername(username);
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
             if (jwtHelper.validateToken(jwtToken, userDetails)) {
 //                log.info("validateToken(-)");
