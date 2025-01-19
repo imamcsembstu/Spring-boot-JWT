@@ -4,7 +4,7 @@ import com.imamcsembstu.spring.boot.jwt.config.authentication.CustomUserDetails;
 import com.imamcsembstu.spring.boot.jwt.config.authentication.jwt.JwtHelper;
 import com.imamcsembstu.spring.boot.jwt.dto.request.LoginUserRequestDto;
 import com.imamcsembstu.spring.boot.jwt.dto.response.LoginUserJwtResponseDto;
-import com.imamcsembstu.spring.boot.jwt.service.UserService;
+import com.imamcsembstu.spring.boot.jwt.dto.response.RefreshTokenAuthenticationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,10 +18,12 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtHelper jwtHelper;
+    private final JwtRefreshTokenService jwtRefreshTokenService;
 
-    public AuthenticationService(AuthenticationManager authenticationManager, JwtHelper jwtHelper) {
+    public AuthenticationService(AuthenticationManager authenticationManager, JwtHelper jwtHelper, JwtRefreshTokenService jwtRefreshTokenService) {
         this.authenticationManager = authenticationManager;
         this.jwtHelper = jwtHelper;
+        this.jwtRefreshTokenService = jwtRefreshTokenService;
     }
 
     public LoginUserJwtResponseDto authenticateUser(LoginUserRequestDto loginRequest) {
@@ -33,13 +35,16 @@ public class AuthenticationService {
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        String jwtToken = jwtHelper.generateToken(userDetails.getUsername());
-
+        String jwtToken = generateAccessToken(userDetails.getUsername());
 
         return LoginUserJwtResponseDto.builder()
                 .token(jwtToken)
                 .email(userDetails.getUsername())
                 .build();
+    }
+
+    public String generateAccessToken(String userName) {
+        return jwtHelper.generateToken(userName);
     }
 
 }
