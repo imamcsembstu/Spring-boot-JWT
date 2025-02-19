@@ -2,8 +2,7 @@ package com.imamcsembstu.spring.boot.jwt.config.authentication.service;
 
 import com.imamcsembstu.spring.boot.jwt.config.authentication.model.RefreshToken;
 import com.imamcsembstu.spring.boot.jwt.config.authentication.repository.RefreshTokenRepository;
-import com.imamcsembstu.spring.boot.jwt.dto.response.RefreshTokenAuthenticationResponse;
-import com.imamcsembstu.spring.boot.jwt.model.User;
+import com.imamcsembstu.spring.boot.jwt.model.user.User;
 import com.imamcsembstu.spring.boot.jwt.service.UserService;
 import org.springframework.stereotype.Service;
 

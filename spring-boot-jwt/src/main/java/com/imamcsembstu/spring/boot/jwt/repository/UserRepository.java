@@ -1,6 +1,6 @@
 package com.imamcsembstu.spring.boot.jwt.repository;
 
-import com.imamcsembstu.spring.boot.jwt.model.User;
+import com.imamcsembstu.spring.boot.jwt.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

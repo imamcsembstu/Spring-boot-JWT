@@ -1,7 +1,7 @@
 package com.imamcsembstu.spring.boot.jwt.config.authentication.service;
 
 import com.imamcsembstu.spring.boot.jwt.config.authentication.CustomUserDetails;
-import com.imamcsembstu.spring.boot.jwt.model.User;
+import com.imamcsembstu.spring.boot.jwt.model.user.User;
 import com.imamcsembstu.spring.boot.jwt.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

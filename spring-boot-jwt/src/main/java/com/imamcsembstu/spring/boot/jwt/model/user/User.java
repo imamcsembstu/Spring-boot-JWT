@@ -1,7 +1,8 @@
-package com.imamcsembstu.spring.boot.jwt.model;
+package com.imamcsembstu.spring.boot.jwt.model.user;
 
+import com.imamcsembstu.spring.boot.jwt.generic.model.BaseEntity;
+import com.imamcsembstu.spring.boot.jwt.model.role.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,11 +12,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -24,5 +21,9 @@ public class User {
 
     @Column(name = "full_name", nullable = false)
     private String fullName;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_user_role_id"))
+    private Role role;
 
 }

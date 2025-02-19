@@ -1,14 +1,10 @@
 package com.imamcsembstu.spring.boot.jwt.service;
 
-import com.imamcsembstu.spring.boot.jwt.config.authentication.CustomUserDetails;
 import com.imamcsembstu.spring.boot.jwt.dto.request.RegisterUserRequestDto;
 import com.imamcsembstu.spring.boot.jwt.dto.response.RegisterUserResponseDto;
-import com.imamcsembstu.spring.boot.jwt.model.User;
+import com.imamcsembstu.spring.boot.jwt.model.user.User;
 import com.imamcsembstu.spring.boot.jwt.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
